@@ -107,8 +107,11 @@ function Library:CreateWindow(_Title, Style, Draggable, Togglable, ToggleKeybind
 	if Togglable then
 		if ToggleKeybind ~= nil then
 			UserInputService.InputEnded:Connect(function(input, gameProcessed)
+				print(1)
 				if gameProcessed then return end
+				print(2)
 				if input.KeyCode ~= ToggleKeybind then return end
+				print(3)
 
 				Window.Enabled = not Window.Enabled
 			end)
