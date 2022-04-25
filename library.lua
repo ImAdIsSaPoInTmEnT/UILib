@@ -14,19 +14,20 @@ local LibraryData = {
 local Library = {}
 
 function Library:CreateWindow(_Title, Style, Draggable, Togglable, ToggleKeybind)
+	print(_Title, Style, tostring(Draggable), tostring(Togglable), tostring(ToggleKeybind)
 	if Style == nil or not table.find(LibraryData.Styles, Style) then
 		Style = LibraryData.Styles[1]
 	end
-	
+
 	if _Title:len() == 0 then _Title = 'TITLE' end
-	
+
 	if Draggable == nil or Draggable ~= false and Draggable ~= true then Draggable = false end
 	if Togglable == nil or Togglable ~= false and Togglable ~= true then Togglable = false end
 	if ToggleKeybind == nil or typeof(ToggleKeybind) ~= 'Enum' then ToggleKeybind = nil end
-	
+
 	local Window = Instance.new('ScreenGui')
 	syn.protect_gui(Window)
-	
+
 	local Topbar = Instance.new("Frame")
 	local Body = Instance.new("Frame")
 	local Tabs = Instance.new("Frame")
@@ -35,9 +36,9 @@ function Library:CreateWindow(_Title, Style, Draggable, Togglable, ToggleKeybind
 	local Title = Instance.new("TextLabel")
 	local Exit = Instance.new("TextButton")
 	local MenuToggle = Instance.new("ImageButton")
-	
+
 	Window.Parent = CoreGui
-	
+
 	Topbar.Name = "Topbar"
 	Topbar.Parent = Window
 	Topbar.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
@@ -103,26 +104,23 @@ function Library:CreateWindow(_Title, Style, Draggable, Togglable, ToggleKeybind
 	MenuToggle.Position = UDim2.new(0.0245473664, 0, 0.166679949, 0)
 	MenuToggle.Size = UDim2.new(0.0649999976, 0, 0.663999975, 0)
 	MenuToggle.Image = "http://www.roblox.com/asset/?id=2038908845"
-	
+
 	if Togglable then
 		if ToggleKeybind ~= nil then
 			UserInputService.InputEnded:Connect(function(input, gameProcessed)
-				print(1)
 				if gameProcessed then return end
-				print(2)
 				if input.KeyCode ~= ToggleKeybind then return end
-				print(3)
 
 				Window.Enabled = not Window.Enabled
 			end)
 		end
 	end
-	
+
 	if Draggable then
 		Topbar.Draggable = true
 		Topbar.Active = true
 	end
-	
+
 	return Window
 end
 
