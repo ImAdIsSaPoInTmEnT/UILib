@@ -1,10 +1,23 @@
 local CoreGui = game:GetService('CoreGui')
 
+local LibraryData = {
+	Styles = {
+		'Dark',
+		'Light',
+		'Midnight',
+		'Blue',
+		'Berry'
+	}
+}
+
 local Library = {}
 
 function Library:CreateWindow(_Title, Style)
-	if not #_Title > 0 then _Title = 'TITLE' end
-	if not #Style > 0 then Style = 'Dark' end
+	if Style == nil or not table.find(LibraryData.Styles, Style) then
+		Style = LibraryData.Styles[1]
+	end
+	
+	if _Title:len() == 0 then _Title = 'TITLE' end
 	
 	local Window = Instance.new('ScreenGui')
 	syn.protect_gui(Window)
