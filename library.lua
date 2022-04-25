@@ -1,3 +1,4 @@
+local UserInputService = game:GetService('UserInputService')
 local CoreGui = game:GetService('CoreGui')
 
 local LibraryData = {
@@ -12,12 +13,16 @@ local LibraryData = {
 
 local Library = {}
 
-function Library:CreateWindow(_Title, Style)
+function Library:CreateWindow(_Title, Style, Draggable, Togglable, ToggleKeybind)
 	if Style == nil or not table.find(LibraryData.Styles, Style) then
 		Style = LibraryData.Styles[1]
 	end
 	
 	if _Title:len() == 0 then _Title = 'TITLE' end
+	
+	if Draggable == nil or Draggable ~= false and Draggable ~= true then Draggable = false end
+	if Togglable == nil or Togglable ~= false and Togglable ~= true then Togglable = false end
+	if ToggleKeybind == nil or typeof(ToggleKeybind) ~= 'Enum' then ToggleKeybind = nil end
 	
 	local Window = Instance.new('ScreenGui')
 	syn.protect_gui(Window)
@@ -98,6 +103,24 @@ function Library:CreateWindow(_Title, Style)
 	MenuToggle.Position = UDim2.new(0.0245473664, 0, 0.166679949, 0)
 	MenuToggle.Size = UDim2.new(0.0649999976, 0, 0.663999975, 0)
 	MenuToggle.Image = "http://www.roblox.com/asset/?id=2038908845"
+	
+	if Togglable then
+		if ToggleKeybind ~= nil then
+			UserInputService.InputEnded:Connect(function(input, gameProcessed)
+				if gameProcessed then return end
+				if input.KeyCode ~= ToggleKeybind then return end
+
+				Window.Enabled = not Window.Enabled
+			end)
+		end
+	end
+	
+	if Draggable then
+		Topbar.Draggable = true
+		Topbar.Active = true
+	end
+	
+	return Window
 end
 
 return Library
